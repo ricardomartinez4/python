@@ -5,7 +5,7 @@ GENERADOR DE CLASES DESDE EL DIAGRAMA UML.
 import re
 def imprimeClase(fichero, clase, atributos, metodos,hshE):
     fpy = open(fichero, 'wt+')
-    if(len(hshE)>0):
+    if(clase in hshE.keys()):
         fpy.write("class {}({}):\n".format(clase,hshE[clase]))
 
         
