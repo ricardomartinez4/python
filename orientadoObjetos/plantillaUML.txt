@@ -1,0 +1,15 @@
+@startuml
+class Rectangulo {
+-base
+-altura
+perimetro()
+area()
+}
+
+Rectangulo <|-- Cuadrado
+
+
+class Cuadrado {
+color
+}
+@enduml
