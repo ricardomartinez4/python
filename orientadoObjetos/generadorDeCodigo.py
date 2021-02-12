@@ -8,7 +8,6 @@ def imprimeClase(fichero, clase, atributos, metodos,hshE):
     if(clase in hshE.keys()):
         fpy.write("class {}({}):\n".format(clase,hshE[clase]))
 
-        
     else:
         fpy.write("class {}():\n".format(clase))
         fpy.write("\tdef __init__(self")
@@ -58,7 +57,7 @@ if __name__=="__main__":
                 elif(dentroClase == 0):
                     m = re.search(r'\s*([A-Z]?[A-Za-z_]*)\s*(<?(?:\||o|\*)?--)\s*([A-Z]?[A-Za-z_]*)\s*', linea)
                     if(m.group(2)=='<|--'):
-                        hshE[m.group(1)] = m.group(3)
+                        hshE.setdefault(m.group(3), []).append(m.group(1))
                     elif(m.group(2)=='*--'):
                         hshC[m.group(1)] = m.group(3)
                     elif(m.group(2)=='o--'):
@@ -84,11 +83,7 @@ if __name__=="__main__":
         
         fichero.close()
         print(hsh)
-        print(
-            hshE)
-
-        
-        
+        print(hshE)
         
     except Exception as e:
         print("Error: " + str(e))
