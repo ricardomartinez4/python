@@ -4,8 +4,7 @@ Conexión con la base de datos.
 """
 import MySQLdb
 class conectaMySQL():
-    __bd = None
-    
+    __bd = None  
     def __init__(self,username, host, database,passwd):
         if not (self.__class__.__bd):
             self.__class__.__bd = MySQLdb.connect(host=host, user=username, passwd=passwd, db=database)
@@ -24,7 +23,7 @@ class conectaMySQL():
     def modificar(self,tabla,diccionario,pk):
         sql = "Update " + tabla + " set "
         for campo,valor in diccionario.items():
-            sql += campo + " = " + valor + ","
+            sql += campo + " = '" + valor + "',"
         sql = sql[0:-1] + " where " + tabla + "ID = " + pk + ";"
         print(sql)
         cur = self.__class__.__bd.cursor()
@@ -49,12 +48,16 @@ class conectaMySQL():
         cur.execute(sql)
         todos = cur.fetchall()
         for row in todos:
-            totalCampos.append(row[0])
+            if(row[0]== tabla + 'ID'):
+                continue 
+            else:
+                totalCampos.append(row[0])
         self.__class__.__bd.commit()
         cur.close()
         return totalCampos  
-try:    
-    conexion = conectaMySQL("ricardomartinez4","localhost","prueba2","1234")
+try:
+    dataBase = input("Database que vas a usar: ")
+    conexion = conectaMySQL("ricardomartinez4","localhost",dataBase,"1234")
     while(True):
         print("1 - INSERTAR")
         print("2 - MODIFICAR")
@@ -69,7 +72,12 @@ try:
             print("Campos que tiene {}: {}".format(tabla,conocer))
             diccionario = {}
             for x in conocer:
-                diccionario[x] = input("Introduce el valor que desea introducir en {}: ".format(x))
+                if(x[-2:] == 'ID'):
+                    listado = conexion.listar(x[:-2])
+                    print("Valores de la tabla {}: {}".format(x[:-2],listado))
+                    diccionario[x] = input("Introduce el valor que desea introducir en {}: ".format(x))
+                else:
+                    diccionario[x] = input("Introduce el valor que desea introducir en {}: ".format(x))
             insertar1 = conexion.insertar(tabla, diccionario)
         elif(opcion == "2"):
             tabla = input("Tabla que desea modificar: ")
