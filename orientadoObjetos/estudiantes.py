@@ -1,5 +1,5 @@
 """
-Herencia múltiple.
+Herencia múltiple
 """
 class Persona():
     def __init__(self, nombre):
@@ -110,7 +110,15 @@ class Alumno(Persona, Notas):
     @classmethod
     def cuantasInstancias(cls):
         return cls.__instancias
-
+    @classmethod
+    def verNotas(cls,profesor):
+        assert(isinstance(profesor, Profesor)),"El profesor debe ser instancia de profesor"
+        for alumno in cls.__instancias:
+            print(alumno.nombre)
+            for entrada in alumno._notas.keys():
+                if(entrada.profesor == profesor.profesor):
+                    print('hola')
+            
 try:
     persona = Persona('Juan Antonio Estuardo')
     print(persona)
