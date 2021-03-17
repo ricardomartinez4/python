@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from builtins import staticmethod
+
 class Palabras():
     
     __numeroFrases = 0
@@ -36,7 +36,7 @@ class Palabras():
     def letrasComun(self,nuevaFrase):
         solucion = []
         for x in self.frase:
-            if(x in nuevaFrase):
+            if(x in nuevaFrase) and (x != ' '):
                 solucion.append(x)
         return solucion
     @staticmethod
